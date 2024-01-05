@@ -1,6 +1,8 @@
 package handlatter.config;
 
+import handlatter.config.oauth.handler.OAuth2AuthenticationSuccessHandler;
 import handlatter.config.oauth.utils.CustomOAuth2MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,14 +15,11 @@ import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
-@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final CustomOAuth2MemberService customOAuth2MemberService;
-
-    public SecurityConfig(CustomOAuth2MemberService customOAuth2MemberService){
-        this.customOAuth2MemberService = customOAuth2MemberService;
-    }
+    private final OAuth2AuthenticationSuccessHandler successHandler;
 
     @Bean
     public BCryptPasswordEncoder encoder(){
@@ -40,7 +39,11 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth2Login ->
                         oauth2Login.userInfoEndpoint(userInfoEndpointConfig ->
-                                userInfoEndpointConfig.userService(customOAuth2MemberService)))
+                                userInfoEndpointConfig.userService(customOAuth2MemberService))
+                                .successHandler(successHandler))
+
+
+
                 ;
         return http.build();
     }
