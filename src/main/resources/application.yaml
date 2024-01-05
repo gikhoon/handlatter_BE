@@ -1,8 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1/handletter
-    username: root
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
     password: ${DB_PWD}
 
   servlet:
@@ -19,7 +19,7 @@ spring:
             client-secret: vkOp9LE28S4JVeuiWfBp31ozoivDSaHc
             client-name: Kakao
             client-authentication-method: client_secret_post
-            redirect-uri: "http://localhost:8080/login/oauth2/code/kakao"
+            redirect-uri: "{baseUrl}/login/oauth2/code/kakao"
             authorization-grant-type: authorization_code
             scope:
               - profile_nickname
