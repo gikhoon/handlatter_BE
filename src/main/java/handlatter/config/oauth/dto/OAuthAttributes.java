@@ -4,19 +4,19 @@ package handlatter.config.oauth.dto;
 import handlatter.domain.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
 @Getter
 @Builder
+@Slf4j
 public class OAuthAttributes {
     private Map<String, Object> attributes;
-    private String nameAttributeKey;
-    private String name;
-    private String email;
+    private String oauthName;
 
-    public static OAuthAttributes of(String registraionId, Map<String, Object> attributes){
-        if ("kakao".equals(registraionId)) {
+    public static OAuthAttributes of(String registrationId, Map<String, Object> attributes){
+        if ("kakao".equals(registrationId)) {
             return ofKakao("id", attributes);
         }
         return null;
@@ -26,18 +26,15 @@ public class OAuthAttributes {
         Map<String, Object> response = (Map<String, Object>) attributes.get("kakao_account");
         Map<String ,Object> account = (Map<String, Object>) attributes.get("profile");
 
-        return OAuthAttributes.builder()
-                .name((String) account.get("nickname"))
-                .email((String) response.get("email"))
-                .attributes(response)
-                .nameAttributeKey(memberNameAttributeName)
-                .build();
+        log.info(response.toString());
+        log.info("account= :" +account.toString());
+
+
+        return null;
     }
 
     public Member toEntity(){
         return Member.builder()
-                .name(name)
-                .email(email)
                 .build();
     }
 }
