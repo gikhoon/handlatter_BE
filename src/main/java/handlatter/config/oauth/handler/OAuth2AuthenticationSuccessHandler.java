@@ -31,6 +31,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String redirectUrl = "http://localhost:8080";
         System.out.println(redirectUrl);
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
+
         log.info(principal.getName());
     }
 }

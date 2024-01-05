@@ -5,6 +5,7 @@ import handlatter.config.oauth.utils.CustomOAuth2MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -36,6 +37,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
                         .requestMatchers(new MvcRequestMatcher(introspector, "/api/user")).permitAll()
+                        .requestMatchers(HttpMethod.GET,"/**").permitAll()
                 )
                 .oauth2Login(oauth2Login ->
                         oauth2Login.userInfoEndpoint(userInfoEndpointConfig ->
