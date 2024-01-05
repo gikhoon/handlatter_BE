@@ -26,9 +26,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         log.info("oAuth2AuthenticationSuccessHandler");
         log.info(authentication.getPrincipal().toString());
         OAuth2User principal = (OAuth2User) authentication.getPrincipal();
-        Token token = jwtUtil.createToken(principal.getName());
-        log.info("token.toString :"+token.toString());
-        String redirectUrl = "http://localhost:8080";
+        String token = jwtUtil.createAccessToken(principal.getName());
+        log.info("token.toString :"+token);
+        String redirectUrl = "http://localhost:8080?accessToken="+token;
         System.out.println(redirectUrl);
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
 

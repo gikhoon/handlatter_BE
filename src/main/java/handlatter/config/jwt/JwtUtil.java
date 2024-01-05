@@ -38,9 +38,9 @@ public class JwtUtil {
                 .before(new Date());
     }
 
-    public String getEmail(String token) {
+    public String getOAuthName(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().get("email", String.class);
+                .getBody().get("oauthName", String.class);
     }
 
     public String resolveAccessToken(HttpServletRequest request) {
@@ -53,17 +53,10 @@ public class JwtUtil {
     }
 
     public String getBearer(String authorizationHeader) {
-        return authorizationHeader.replace("Bearer", "");
+        return authorizationHeader.replace("Bearer ", "");
     }
 
-
-    public Token createToken(String oauthName) {
-        return Token.builder()
-                .accessToken(createAccessToken(oauthName))
-                .build();
-    }
-
-    private String createAccessToken(String oauthName) {
+    public String createAccessToken(String oauthName) {
         Claims claims = Jwts.claims();
         claims.put("oauthName", oauthName);
         return Jwts.builder()
