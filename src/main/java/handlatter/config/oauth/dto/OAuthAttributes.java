@@ -7,8 +7,6 @@ import lombok.Getter;
 
 import java.util.Map;
 
-import static com.amazonaws.services.ec2.model.PrincipalType.Role;
-
 @Getter
 @Builder
 public class OAuthAttributes {
@@ -21,6 +19,7 @@ public class OAuthAttributes {
         if ("kakao".equals(registraionId)) {
             return ofKakao("id", attributes);
         }
+        return null;
     }
 
     private static OAuthAttributes ofKakao(String memberNameAttributeName, Map<String, Object> attributes) {
@@ -28,7 +27,7 @@ public class OAuthAttributes {
         Map<String ,Object> account = (Map<String, Object>) attributes.get("profile");
 
         return OAuthAttributes.builder()
-                .name((String) account.get("name"))
+                .name((String) account.get("nickname"))
                 .email((String) response.get("email"))
                 .attributes(response)
                 .nameAttributeKey(memberNameAttributeName)

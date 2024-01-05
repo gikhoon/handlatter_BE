@@ -20,9 +20,9 @@ public class SessionMember implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collections = new ArrayList<>();
 
-//        collections.add(() -> {
-//            return "ROLE_" + member.getRole();
-//        });
+        collections.add(() -> {
+            return "ROLE_" + member.getRole();
+        });
 
         return collections;
     }
