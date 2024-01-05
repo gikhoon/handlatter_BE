@@ -22,12 +22,12 @@ public class Member {
     private String email;
     private String password;
 
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
+
     @Builder
-    public Member(Long id, String name, String email, String password, Role role){
+    public Member(Long id, String name, String email, String password){
         this.id = id;
         this.name = name;
         this.email = email;
@@ -43,6 +43,4 @@ public class Member {
     public String getRoleKey() {
         return this.role.getKey();
     }
-
-
 }
