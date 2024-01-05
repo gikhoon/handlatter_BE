@@ -2,13 +2,13 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.jetbrains.kotlin.jvm'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
 }
 
 configurations {
@@ -32,6 +32,8 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
+	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
 	//S3 관련 의존성 부여
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
@@ -40,11 +42,16 @@ dependencies {
 
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation 'com.sun.xml.bind:jaxb-impl:4.0.1'
+
 	implementation 'com.sun.xml.bind:jaxb-core:4.0.1'
 	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+kotlin {
+	jvmToolchain(17)
 }

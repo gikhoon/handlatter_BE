@@ -3,11 +3,9 @@ package handlatter.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.io.IOException;
-
 @AllArgsConstructor
 @Getter
-public class ImageException extends IOException {
+public class ApplicationException extends RuntimeException{
 
     private ErrorCode errorCode;
 }

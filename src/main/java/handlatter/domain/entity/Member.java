@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
-
-import java.net.ProtocolFamily;
 
 @Entity
 @NoArgsConstructor
@@ -18,6 +15,7 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
     private String nickName ="";
+    @Column(unique = true)
     private String oauthName;
 
     @Enumerated(EnumType.STRING)

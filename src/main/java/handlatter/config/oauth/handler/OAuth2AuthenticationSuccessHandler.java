@@ -1,9 +1,6 @@
 package handlatter.config.oauth.handler;
 
 import handlatter.config.jwt.JwtUtil;
-import handlatter.config.jwt.Token;
-import handlatter.config.oauth.dto.OAuth2UserPrincipal;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,22 +11,25 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.security.Principal;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
+
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         log.info("oAuth2AuthenticationSuccessHandler");
         log.info(authentication.getPrincipal().toString());
+
         OAuth2User principal = (OAuth2User) authentication.getPrincipal();
+
         String token = jwtUtil.createAccessToken(principal.getName());
-        log.info("token.toString :"+token);
-        String redirectUrl = "http://localhost:8080?accessToken="+token;
-        System.out.println(redirectUrl);
+
+        log.info("token.toString :" + token);
+        String redirectUrl = "http://localhost:8080?accessToken=" + token;
+
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
 
         log.info(principal.getName());

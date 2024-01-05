@@ -4,7 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import handlatter.exception.ErrorCode;
-import handlatter.exception.ImageException;
+import handlatter.exception.ApplicationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,10 +26,10 @@ public class S3Uploader {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String uploadFiles(MultipartFile multipartFile, String dirName) throws ImageException{
+    public String uploadFiles(MultipartFile multipartFile, String dirName) throws ApplicationException {
         log.info("upload Files {}",multipartFile);
         File uploadFile = convert(multipartFile)
-                .orElseThrow(() -> new ImageException(ErrorCode.IMAGE_PROCESSING_FAIL));
+                .orElseThrow(() -> new ApplicationException(ErrorCode.IMAGE_PROCESSING_FAIL));
         return upload(uploadFile, dirName);
     }
 
@@ -54,7 +54,7 @@ public class S3Uploader {
         return amazonS3.getUrl(bucket, fileName).toString();
     }
 
-    private Optional<File> convert(MultipartFile file) throws ImageException {
+    private Optional<File> convert(MultipartFile file) throws ApplicationException {
         File convertFile = new File(System.getProperty("user.dir") + "/" + file.getOriginalFilename());
         log.info("original file name: {}",file.getOriginalFilename());
 
@@ -69,7 +69,7 @@ public class S3Uploader {
             }
         } catch (IOException e) {
             log.info("convert 실패");
-            throw new ImageException(ErrorCode.IMAGE_PROCESSING_FAIL);
+            throw new ApplicationException(ErrorCode.IMAGE_PROCESSING_FAIL);
         }
         log.info("convert empty");
         return Optional.empty();

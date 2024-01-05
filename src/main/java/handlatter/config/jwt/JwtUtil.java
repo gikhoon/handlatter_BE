@@ -1,7 +1,6 @@
 package handlatter.config.jwt;
 
-import handlatter.exception.ErrorCode;
-import handlatter.exception.ImageException;
+import handlatter.exception.AuthenticateException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -22,10 +21,11 @@ public class JwtUtil {
     @Value("${jwt.access.expiration}")
     Long accessExpiration;
 
-    public boolean validateToken(String accessToken) throws ImageException {
+    public boolean validateToken(String accessToken) throws AuthenticateException {
         if (accessToken.isEmpty()) {
-            throw new ImageException(ErrorCode.JWT_NOT_EXISTS);
+            throw new AuthenticateException("잘못된 accessToken입니다.");
         }
+
         return isExpired(accessToken);
     }
 
